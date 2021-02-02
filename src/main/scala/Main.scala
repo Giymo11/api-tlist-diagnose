@@ -49,7 +49,7 @@ def parseResponse(response: String, includeHeader: Boolean): String = {
       println(s"response: $response")
       println(s"nameset size: ${nameSet.size}, ${pairs.map(pair => quote(pair._2)).toList}")
   }
-  "Error"
+  "ERROR\n"
 }
 
 @main def hello(ip: String, port: Int, interval: Int): Unit = {
@@ -66,14 +66,14 @@ def parseResponse(response: String, includeHeader: Boolean): String = {
     out.flush()
 
     val response = readResponse(in, System.currentTimeMillis() + 999)
-
-    val csv = if (first) {
-      first = false
-      parseResponse(response, true)
-    } else
-      parseResponse(response, false)
-
-    fw.write(csv)
+    if(!response.isEmpty) {
+      val csv = if (first) {
+        first = false
+        parseResponse(response, true)
+      } else
+        parseResponse(response, false)
+      fw.write(csv)
+    }
   }
 
   try {
