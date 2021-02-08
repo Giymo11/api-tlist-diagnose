@@ -38,8 +38,9 @@ def parseResponse(response: String, includeHeader: Boolean): String = {
   }
   
   def quote(string: String) = "\"" + string + "\""
-
-  val nameSet = pairs.map(pair => quote(pair._1)).toSet
+  
+  val numberOfUniqueParams = pairs.toSet.size
+  val nameSet = pairs.map(pair => quote(pair._1)).take(numberOfUniqueParams)
   try {
     val names = nameSet.mkString(",") + "\n"
     val values = pairs.map(pair => quote(pair._2)).grouped(nameSet.size).map(_.mkString(",")).mkString("\n") + "\n"
@@ -62,10 +63,10 @@ def parseResponse(response: String, includeHeader: Boolean): String = {
   val fw = new BufferedWriter(new FileWriter(filename, true))
 
   def readAndAppendResponse(out: PrintWriter, in: BufferedReader) = {
-    out.println("t list")
+    out.println("t list all")
     out.flush()
 
-    val response = readResponse(in, System.currentTimeMillis() + 999)
+    val response = readResponse(in, System.currentTimeMillis() + 2999)
     if(!response.isEmpty) {
       val csv = if (first) {
         first = false
@@ -78,7 +79,7 @@ def parseResponse(response: String, includeHeader: Boolean): String = {
 
   try {
     val echoSocket = new Socket(ip, port)
-    echoSocket.setSoTimeout(500)
+    echoSocket.setSoTimeout(1500)
     val out = new PrintWriter(echoSocket.getOutputStream(), true)
     val in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()))
     
