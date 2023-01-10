@@ -4,7 +4,7 @@ lazy val root = project
   .in(file("."))
   .settings(
     name := "api-tlist-diagnose",
-    version := "1.0.0",
+    version := "1.0.1",
 
     scalaVersion := scala3Version,
 

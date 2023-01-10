@@ -1,6 +1,10 @@
 # Project exclude paths
-/project/project/target/
-/project/target/
-/target/
-/target/scala-3.0.0-M3/classes/
-/target/scala-3.0.0-M3/test-classes/
+*target*
+.idea
+.bsp
+.metals
+metals.sbt
+*.bloop
+
+
+

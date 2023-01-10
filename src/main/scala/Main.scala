@@ -4,6 +4,10 @@ import java.nio.file.{Files, Paths}
 import java.util.stream.Collectors
 
 
+val socketTimeout = 3000
+val responseInTimeout = 4000
+
+
 def readResponse(in: BufferedReader, until: Long): String = {
   val builder = StringBuilder("")
 
@@ -66,7 +70,7 @@ def parseResponse(response: String, includeHeader: Boolean): String = {
     out.println("t list all")
     out.flush()
 
-    val response = readResponse(in, System.currentTimeMillis() + 2999)
+    val response = readResponse(in, System.currentTimeMillis() + responseInTimeout)
     if(!response.isEmpty) {
       val csv = if (first) {
         first = false
@@ -79,7 +83,7 @@ def parseResponse(response: String, includeHeader: Boolean): String = {
 
   try {
     val echoSocket = new Socket(ip, port)
-    echoSocket.setSoTimeout(1500)
+    echoSocket.setSoTimeout(socketTimeout)
     val out = new PrintWriter(echoSocket.getOutputStream(), true)
     val in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()))
     
